@@ -1,0 +1,16 @@
+#for i in `svnstatus | grep \!`; do 
+#if [ ! $i == \! ]; then
+#svn rm $i 
+#fi
+#done
+
+for i in `svnstatus | awk '{print $1":"$2}'`; do 
+STATUS=`echo $i | awk -F":" '{print $1}'`
+if [ $STATUS == \! ]; then 
+FILE=`echo $i | awk -F":" '{print $2}'`
+#echo "rm $FILE"
+svn rm $FILE; 
+fi;
+done
+
+

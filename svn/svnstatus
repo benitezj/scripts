@@ -1,0 +1,7 @@
+
+DIR=$1
+if [ "$DIR" == "" ] ; then
+DIR="."
+fi
+
+svn status $DIR | grep -v _C.d | grep -v doc |  grep -v x86_64 | grep -v genConf | grep -v "cmt/cleanup." | grep -v "cmt/setup." | grep -v "cmt/version." |  grep -v "cmt/Makefile" | grep -v "-eps-converted-to.pdf" | grep -v ACLiC_dict_rdict 

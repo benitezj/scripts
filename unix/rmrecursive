@@ -1,0 +1,19 @@
+export phrase=$1
+export tmppath=$2
+
+for f in `/bin/ls $tmppath`; do 
+   if [ ! -d "$tmppath/$f" ]; then
+   
+      export tmp=`echo $tmppath/$f | grep $phrase`
+      
+      if [ "$tmp" != "" ]; then
+      	 echo "rm -f $tmppath/$f"
+         /bin/rm -f $tmppath/$f 
+      fi
+   
+   else
+     
+     rmrecursive $phrase $tmppath/$f
+       
+   fi 
+done

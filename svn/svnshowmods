@@ -1,0 +1,31 @@
+
+####first version
+#for d in `/bin/ls . | grep -v RootCoreBin | grep -v genConf | grep -v x86_64-slc6-gcc`; do
+#if [ -e $d/.svn/entries ] ; then
+#cd $d
+#echo "$d : "; 
+#svnstatus
+#cd ..
+#fi
+#done
+
+##############################
+##version 2: recursive navigate needed for Athena packages
+#############################
+
+DIR=$1
+if [ "$DIR" == "" ] ; then
+DIR="."
+fi
+
+for d in `/bin/ls -p $DIR | grep '/' | grep -v RootCoreBin | grep -v genConf | grep -v x86_64-slc6-gcc | grep -v InstallArea | grep -v NTUPLES | grep -v submitDir`; do
+
+if [ -e  $DIR/$d/.svn/entries ] ; then
+echo "---------------------------------------"  
+echo "$d : " 
+svnstatus $DIR/$d
+echo ""  
+else
+svnshowmods  $DIR/$d
+fi
+done

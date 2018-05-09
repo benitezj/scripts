@@ -1,0 +1,5 @@
+export pkg=$1
+export brname=$2
+export command="svn copy $MYSVN/$pkg/trunk $MYSVN/$pkg/branches/$brname -m\"\" "
+echo $command
+$command

@@ -1,0 +1,9 @@
+#for i in `svn status | grep ? | grep -v _C.d | grep -v genConf | grep -v x86_64`; do 
+for i in `svnstatus | awk '{print $1":"$2}'`; do 
+STATUS=`echo $i | awk -F":" '{print $1}'`
+if [ $STATUS == ? ]; then 
+FILE=`echo $i | awk -F":" '{print $2}'`
+#echo "add $FILE"
+svn add $FILE; 
+fi;
+done

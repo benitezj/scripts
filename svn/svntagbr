@@ -1,0 +1,4 @@
+svn rm -m "" $MYSVN/$1/tags/$2
+export command="svn copy $MYSVN/$1/branches $MYSVN/$1/tags/$2 -m\"\" "
+echo $command
+$command

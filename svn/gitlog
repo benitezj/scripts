@@ -1,0 +1,3 @@
+export gitfilelog=$1
+echo $gitfilelog
+git log --pretty=format:"%h - %an, %ar : %s" $gitfilelog

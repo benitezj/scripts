@@ -1,0 +1,13 @@
+
+for d in `/bin/ls -p . | grep '/' | grep -v RootCoreBin | grep -v genConf | grep -v x86_64-slc6-gcc | grep -v InstallArea | grep -v NTUPLES | grep -v submitDir`; do
+
+if [ -e  ./$d/.git ] ; then
+cd ./$d
+echo "---------------------------------------"  
+echo "$d : " 
+gitstatus 
+echo ""
+cd ..
+fi
+  
+done
