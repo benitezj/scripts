@@ -577,7 +577,7 @@ fi
 #################################
 export INPATH=$3
 export OUTPATH=$4
-if [ "$2" == "scplpc" ]; then 
+if [ "$2" == "gghbbscp" ]; then 
 echo "Copying files:"
 echo "INPATH: $INPATH"
 echo "OUTPATH: $OUTPATH"
@@ -586,7 +586,20 @@ for s in $SAMPLELIST; do
 echo "$s"
 scp benitezj@cmslpc-sl6.fnal.gov:$INPATH/$s $OUTPATH/
 done
-
 fi
 
-
+#################################
+#####check number of events
+#################################
+export INPATH=$3
+if [ "$2" == "gghbbevents" ]; then 
+echo "Number of events:"
+echo "INPATH: $INPATH"
+export COUNTER=0
+for s in $SAMPLELIST; do
+export NEVENT=`checkrootfile $INPATH/$s otree`
+export COUNTER=`echo $COUNTER $NEVENT | awk '{print $1+$2}'`
+echo "$NEVENT $s"
+done
+echo "Total = $COUNTER"
+fi

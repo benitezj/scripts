@@ -12,7 +12,8 @@ int main(int argc,char** argv){
 
   TTree* Tree=(TTree*)File.Get(argv[2]); 
   if(Tree==NULL) return 0;
-  cout<<Tree->GetEntries()<<endl;
+  int NEV=Tree->GetEntries();
+  cout<<NEV<<endl;
 
   return 1;
 }
