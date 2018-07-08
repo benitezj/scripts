@@ -6,4 +6,4 @@ fi
 
 echo $IP > pingdata.log
 date >> pingdata.log
-ping $IP >> pingdata.log 
+ping -W 1000 $IP >> pingdata.log 

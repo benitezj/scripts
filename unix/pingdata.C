@@ -17,9 +17,8 @@ vector<string> split(const string &s, char delim) {
 
 void pingdata(){
 
-  TCanvas C;
+
   TGraph G;
-  TGraph Gdrop;
 
   std::ifstream infile("pingdata.log");
   if(! infile.is_open()){
@@ -71,7 +70,7 @@ void pingdata(){
     ///// these are droped packets
     //Request timeout for icmp_seq 146
     if(items[1].compare("timeout")==0){
-      G.SetPoint(counter,atoi(items[4].c_str()),2);
+      G.SetPoint(counter,atoi(items[4].c_str()),1);
       //counterdrop++;
       counter++;
     }
@@ -80,6 +79,7 @@ void pingdata(){
 
   }  
 
+  TCanvas C("Cpingdata","",1200,500);
   TLine linegraph;
   C.Clear();
   G.SetTitle(TString("")+ip.c_str()+", "+date.c_str());
@@ -88,8 +88,6 @@ void pingdata(){
   G.GetYaxis()->SetRangeUser(1,1000);
   C.SetLogy(1);
   G.Draw("la");
-  //Gdrop.SetMarkerColor(2);
-  //Gdrop.Draw("psame");
   linegraph.DrawLine(1,100,packet,100);
   C.Print("pingdata.png");
   
