@@ -2,12 +2,12 @@ export tmppath=$1
 
 for f in `/bin/ls -a $tmppath`; do 
 
-   if [ "$f" == ".svn" ]; then
+   if [ "$f" == ".svn" ] || [ "$f" == ".git" ]; then
       echo "rm $tmppath/$f"
       rm -rf $tmppath/$f
    else
       if [ -d "$tmppath/$f" ] && [ "$f" != "." ] && [ "$f" != ".." ]; then
-          svnrmdirs $tmppath/$f
+          rmsvngitdirs $tmppath/$f
       fi
    fi 
 

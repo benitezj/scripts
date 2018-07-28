@@ -1,0 +1,31 @@
+#!/bin/bash
+
+## first must create a repo in github.com/benitezj/$PKG
+
+##directory name, must match repo created in github.com
+PKG=$1
+
+##remove any .svn 
+rmsvngitdirs ./$PKG/
+
+##create a tmp
+mv $PKG  ${PKG}.tmp
+
+## checkout the github repo
+git clone git@github.com:benitezj/${PKG}.git
+
+## go into repo and copy contents
+cd $PKG
+cp -r ../${PKG}.tmp/* .
+
+## add all the files and commit them
+git add -A .
+git commit -m "svn to git"
+git push  
+git status
+
+## just move back
+cd ..
+ls . | grep $PKG
+
+
