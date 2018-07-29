@@ -1,11 +1,17 @@
 #!/usr/bin/perl
 # -w
 
-$jobid=shift;
-#$checkpending=`bjobs -q $queue -p | grep $queue |  wc -l`;
-#$logexists=`[ -f ${modesubdir}/${barefile[0]}.log ] && echo 1 || echo 0`;
+
+
+#$user=env($USER);
+#$jobid=shift;
+$progname=shift;
+$jobid=`ps -u \$USER | grep $progname | awk -F" " '{print \$1}'`;
+chomp($jobid);
 
 $jobidcheck=$jobid;
+
+
 
 #get the initial memory and time
 $jobstats=`ps v ${jobid}`;
