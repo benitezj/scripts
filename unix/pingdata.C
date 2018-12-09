@@ -41,41 +41,24 @@ void pingdata(){
     //std::cout<<line.c_str()<<std::endl;
  
     vector<string> items=split(line,' ');
-    if(items.size()==0) continue;
-
-    ////read the start time
-
-    ///get the ip 
-    //PING 189.199.117.125 (189.199.117.125): 56 data byte
-    // if(items[0].compare("PING")==0){
-    //   std::cout<<items[1]<<std::endl;
-    //   ip=items[1];
-    // }
-
+    if(items.size()<2) continue;
+    
     ////read packet delay
     //64 bytes from 189.199.117.125: icmp_seq=0 ttl=248 time=16.462 ms
-    //if(items[1].compare("bytes")==0) std::cout<<items[4]<<" "<<items[6]<<std::endl;
-    if(items[1].compare("bytes")==0){
-      //std::cout<<items[4]<<" "<<items[6]<<std::endl;
+    if(items[0].compare("64")==0 && items[1].compare("bytes")==0){
       vector<string> seq=split(items[4],'=');
       vector<string> delay=split(items[6],'=');
-      //std::cout<<seq[1]<<" "<<delay[1]<<std::endl;
-
       G.SetPoint(counter,atoi(seq[1].c_str()),atoi(delay[1].c_str()));
-      //G.SetBinContent(atoi(seq[1].c_str()),atoi(delay[1].c_str()));
       packet=atoi(seq[1].c_str());
-      counter++;
-    }else
-    
-    ///// these are droped packets
-    //Request timeout for icmp_seq 146
-    if(items[1].compare("timeout")==0){
-      G.SetPoint(counter,atoi(items[4].c_str()),1);
-      //counterdrop++;
       counter++;
     }
 
-
+    ///// these are droped packets
+    //Request timeout for icmp_seq 146
+    if(items[0].compare("Request")==0 && items[1].compare("timeout")==0){
+      G.SetPoint(counter,atoi(items[4].c_str()),1);
+      counter++;
+    }
 
   }  
 
