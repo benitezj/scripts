@@ -213,6 +213,8 @@ if($option eq "create"){
     #Determine how to read the input
     if($instorage eq  "eos"){
 	$cpin="$eos cp";
+    }else if($instorage eq  "grid"){
+	$cpin="";
     }else {
 	$cpin="/bin/cp";
     }

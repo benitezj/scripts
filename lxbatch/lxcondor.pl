@@ -28,12 +28,13 @@ print "OUTPUTDIR = $OUTPUTDIR\n";
 
 
 ##read the samples list
-@samples=`cat $samplesfile | grep "." | grep -v "#" | grep -v '/' `;
+#@samples=`cat $samplesfile | grep "." | grep -v "#" | grep -v '/' `;
 $counter = 0;
-foreach $samp (@samples){
-    chomp($samp);
+#foreach $samp (@samples){
+while (my $samp = <$FILEHANDLE>){
+    #chomp($samp);
     $samp =~ s/^\s+|\s+$//g; ##remove beg/end spaces
-    print "$option $samp\n";
+    #print "$samp\n";
     $samples[$counter] = $samp;
     $counter++;
 }
@@ -142,7 +143,9 @@ sub makeClusterJob {
     `echo "echo '+++++++++++++Execute Dir+++++++++++:'; pwd; /bin/ls -l " >> $outfile`;
     
     # copy back the output
-    `echo "/bin/cp ./output.root ${OUTPUTDIR}/${sample}_${idx}.root " >> $outfile`;	
+    $output=$sample;
+    $output =~ s/\//_/g; 
+    `echo "/bin/cp ./output.root ${OUTPUTDIR}/${output}_${idx}.root " >> $outfile`;	
     
     makeCondorSub($SUBMITDIR,$sample,$idx);
 }
@@ -167,12 +170,17 @@ if($option eq "create"){
 
 
     foreach $samp (@samples){
+	#print "$samp\n";
 	#create the submission directory
-	`mkdir $SUBMITDIR/$samp`;
-
+	`mkdir -p $SUBMITDIR/$samp`;
+	
 	#get list of input files
-	@dirlist=`/bin/ls -d $INPUTDIR/$samp/*/*/* | grep .root`;
-   
+	if($INPUTDIR eq "grid"){
+	    @dirlist=`dasgoclient -query="file dataset=$samp" | grep .root`
+	}else{
+	    @dirlist=`/bin/ls -d $INPUTDIR/$samp/*/*/* | grep .root`;
+	}   
+
 	##loop over the input files and merge
 	$filecntr=0;
 	$arrsize=@dirlist;
@@ -180,10 +188,16 @@ if($option eq "create"){
 	$filelist="";
 	$nfiles=0;
 	for $file (@dirlist){
+	    #print "$file\n";
 	    $filecntr++;
 	    chomp($file);
 
-	    $filelist = "${filelist} ${file}";
+	    if($INPUTDIR eq "grid"){
+		$filelist = "${filelist} root://cms-xrd-global.cern.ch/${file}";
+	    } else {
+		$filelist = "${filelist} file:${file}";
+	    }
+
 	    $nfiles++;
 	    if($nfiles == $nfilesperjob || $filecntr == $arrsize){
 		makeClusterJob($OUTPUTDIR,$SUBMITDIR,$samp,$jobidx,$filelist,$cfg);
