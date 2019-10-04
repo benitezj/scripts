@@ -113,7 +113,9 @@ sub makeClusterJob {
     #setup environment
     `echo "cd ${SUBMITDIR}" >> $outfile`;
     `echo "eval \\\`scramv1 runtime -sh\\\`" >> $outfile`;
+    `echo "echo traviesa | voms-proxy-init -voms cms -rfc" >> $outfile`;
     `echo "cd \\\$TMPDIR" >> $outfile`;
+
     
 #    $CMSSWBASE= getenv("CMSSW_BASE");
 #    $CMSSWV=getenv("CMSSW_VERSION");
