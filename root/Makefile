@@ -5,4 +5,4 @@
 #ROOTLIBS='-lRooFit -lHtml -lMinuit -lRooFitCore -lRooStats -lHistFactory'
 ROOTLIBS=""
 
-g++ -g -Wall `root-config --cflags --libs` -L$ROOTSYS/lib $ROOTLIBS checkrootfile.c -o ./checkrootfile
+g++ -g -Wall `root-config --cflags --libs` -L$ROOTSYS/lib $ROOTLIBS checkrootfile.cpp -o ./checkrootfile
