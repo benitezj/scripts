@@ -2,7 +2,7 @@
 IP=$1
 if [ "$IP" == "" ]; then
 echo "no ip"
-IP=cmslpc41.fnal.gov
+IP=lxplus.cern.ch
 fi
 
 echo $IP > pingdata.log
