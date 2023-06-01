@@ -4,16 +4,23 @@
 ## input lines must be in following form
 # /store/data/Run2018A/AlCaLumiPixels/ALCARECO/AlCaPCCZeroBias-13Mar2023_UL2018_PCC-v1/2560000/33548116-C1B4-324E-857D-A96056501FD6.root
 
-execute=0
 
 INPUT=$1
-echo $INPUT
+if [ -e $INPUT ]; then
+    echo "Input: ${INPUT}"
+else
+    echo "invalid INPUT"
+    exit 1
+fi
 
 OUTPATH=$2
 if [ "$OUTPATH" == "" ]; then
     OUTPATH="."
 fi
-echo $OUTPATH
+echo "OUTPUTPATH: $OUTPATH"
+
+execute=$3 
+
 
 XRDPATH=root://xrootd-cms.infn.it/
 echo $XRDPATH
