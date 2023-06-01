@@ -46,7 +46,7 @@ while read p; do
     echo "mkdir -p ${OUTPATH}/${SAMPLE}"
     echo "xrdcp ${XRDPATH}/${p} ${OUTPATH}/${SAMPLE}/"
    
-    if [ "$execute" == 1 ]; then
+    if [ "$execute" == 1 ] && [ ! -f "${OUTPATH}/${SAMPLE}/${FILE}" ]; then
 	mkdir -p ${OUTPATH}/${SAMPLE}
 	xrdcp ${XRDPATH}/${p} ${OUTPATH}/${SAMPLE}/
     fi
