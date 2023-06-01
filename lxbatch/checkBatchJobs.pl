@@ -12,8 +12,10 @@ if($frequency==0){
 }
 
 #get the initial number
-$command="bjobs | wc -l";
-$commandrun="bjobs | grep RUN |  wc -l";
+#$command="bjobs | wc -l";
+#$commandrun="bjobs | grep RUN |  wc -l";
+$command="condor_q | grep benitezj |  wc -l";
+$commandrun="condor_q | grep benitezj |  wc -l";
 $njobsinit=`${command}` - 1;
 
 $njobs=$njobsinit;
