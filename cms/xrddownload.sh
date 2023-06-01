@@ -4,9 +4,8 @@
 ## input lines must be in following form
 # /store/data/Run2018A/AlCaLumiPixels/ALCARECO/AlCaPCCZeroBias-13Mar2023_UL2018_PCC-v1/2560000/33548116-C1B4-324E-857D-A96056501FD6.root
 
-
 INPUT=$1
-if [ -e $INPUT ]; then
+if [ -f "$INPUT" ]; then
     echo "Input: ${INPUT}"
 else
     echo "invalid INPUT"
@@ -14,13 +13,15 @@ else
 fi
 
 OUTPATH=$2
-if [ "$OUTPATH" == "" ]; then
-    OUTPATH="."
+if [ -d "$OUTPATH" ]; then
+    echo "OUTPATH: $OUTPATH"
+else
+    echo "OUTPATH does not exist"
+    exit 1
 fi
-echo "OUTPUTPATH: $OUTPATH"
 
 execute=$3 
-
+echo "EXECUTE: $execute"
 
 XRDPATH=root://xrootd-cms.infn.it/
 echo $XRDPATH
@@ -39,10 +40,12 @@ while read p; do
     #echo $SAMPLE
     #echo $FILE
 
-    command="mkdir -p ${OUTPATH}/${SAMPLE}; xrdcp $XRDPATH/$p $OUTPATH/$SAMPLE/"
-    echo $command
-    if [ $execute == 1 ]; then
-	`$command`
+    echo "mkdir -p ${OUTPATH}/${SAMPLE}"
+    echo "xrdcp ${XRDPATH}/${p} ${OUTPATH}/${SAMPLE}/"
+   
+    if [ "$execute" == 1 ]; then
+	mkdir -p ${OUTPATH}/${SAMPLE}
+	xrdcp ${XRDPATH}/${p} ${OUTPATH}/${SAMPLE}/
     fi
     
 done <$INPUT
