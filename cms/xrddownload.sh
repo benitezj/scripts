@@ -23,8 +23,11 @@ fi
 execute=$3 
 echo "EXECUTE: $execute"
 
-XRDPATH=root://xrootd-cms.infn.it/
+#XRDPATH=root://xrootd-cms.infn.it/
+XRDPATH=root://cms-xrd-global.cern.ch/
 echo $XRDPATH
+
+echo ${VOMSPASSWD} | voms-proxy-init -voms cms -rfc
 
 while read p; do
 
